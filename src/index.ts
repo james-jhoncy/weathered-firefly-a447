@@ -1,15 +1,7 @@
 export default {
   async fetch(request, env) {
-    let prompt = "cyberpunk cat"; // Default prompt
-
-    try {
-      const { prompt: userPrompt } = await request.json();
-      if (userPrompt) {
-        prompt = userPrompt;
-      }
-    } catch (error) {
-      console.error("Invalid JSON or missing prompt:", error);
-    }
+    const url = new URL(request.url);
+    const prompt = url.searchParams.get("prompt") || "cyberpunk cat"; 
 
     const inputs = { prompt };
 
