@@ -1,8 +1,17 @@
 export default {
   async fetch(request, env) {
-    const inputs = {
-      prompt: "cyberpunk cat",
-    };
+    let prompt = "cyberpunk cat"; // Default prompt
+
+    try {
+      const { prompt: userPrompt } = await request.json();
+      if (userPrompt) {
+        prompt = userPrompt;
+      }
+    } catch (error) {
+      console.error("Invalid JSON or missing prompt:", error);
+    }
+
+    const inputs = { prompt };
 
     const response = await env.AI.run(
       "@cf/stabilityai/stable-diffusion-xl-base-1.0",
